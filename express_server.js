@@ -11,9 +11,9 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.get('/', (reg, res) => {
-  res.send('Hello!');
-});
+// app.get('/', (reg, res) => {
+//   res.send('Hello!');
+// });
 
 app.get('/urls', (req, res) => {
   const templateVars = {
@@ -40,16 +40,25 @@ app.get('/hello', (req, res) => {
 });
 
 app.post('/urls', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
   return res.redirect(`/urls/${shortURL}`);
 });
 
 app.get('/u/:shortURL', (req, res) => {
-  const longURL = req.body.longURL;
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL];
+  console.log("heyyyyy",longURL);
   res.redirect(longURL);
-})
+});
+
+app.post('/urls/:shortURL/delete', (req, res) => {
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  console.log(urlDatabase);
+  res.redirect('/urls');
+});
 
 function generateRandomString() {
   const randString = Math.random().toString(24);
