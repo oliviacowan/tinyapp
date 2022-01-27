@@ -48,14 +48,19 @@ app.get('/urls', (req, res) => {
   };
   res.render('urls_index', templateVars);
 })
-//create page
+//create new tinyURL page
 app.get('/urls/new', (req, res) => {
-  const user = users[req.cookies.user_id];
+  const userID = req.cookies.user_id
+  if (!userID) {
+    res.redirect('/login')
+    return;
+  } else {
   const templateVars = {
-    user: user,
+    user: users[userID],
     urls: urlDatabase
   };
   res.render('urls_new', templateVars);
+}
 });
 //edit page
 app.get('/urls/:shortURL', (req, res) => {
@@ -116,7 +121,7 @@ app.post('/login', (req, res) => {
   res.cookie('user_id', user.id);
   res.redirect('/urls');
 });
-
+//login
 app.get('/login', (req, res) => {
   templateVars = {user: req.cookies['user_id']};
   res.render('urls_login', templateVars);

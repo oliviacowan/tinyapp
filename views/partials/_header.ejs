@@ -12,7 +12,7 @@
         <a class="nav-item nav-link" href="/register">Register</a>
       </div>
       <% if (user) { %>
-        <p>logged in as:<%= user.email %></p>
+        <p>logged in as: <%= user.email %></p>
         <form method="POST" action="/logout">
           <button type="logout" class="btn btn-outline-primary">Logout</button></form>
       <% } else if (user === undefined) { %>
