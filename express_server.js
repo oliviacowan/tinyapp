@@ -43,7 +43,7 @@ app.get('/urls', (req, res) => {
   const user = users[req.cookies.user_id];
   console.log('user: ', user);
   const templateVars = {
-    username: user.email,
+    user: user,
     urls: urlDatabase
   };
   res.render('urls_index', templateVars);
@@ -52,7 +52,7 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
   const user = users[req.cookies.user_id];
   const templateVars = {
-    username: user.email,
+    user: user,
     urls: urlDatabase
   };
   res.render('urls_new', templateVars);
@@ -60,7 +60,7 @@ app.get('/urls/new', (req, res) => {
 //edit page
 app.get('/urls/:shortURL', (req, res) => {
   const user = users[req.cookies.user_id];
-  const templateVars = {username: user.email, shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL]};
+  const templateVars = {user: user, shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL]};
   res.render('urls_show', templateVars);
 });
 //creates a new tinyURL
@@ -118,15 +118,16 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.render('urls_login');
+  templateVars = {user: req.cookies['user_id']};
+  res.render('urls_login', templateVars);
 })
 //logs out
-// app.post('/logout', (req, res) => {
-//   const user = users[req.cookies.user_id];
-//   console.log(user, 'hereee')
-//   res.clearCookie('user_id', user.id);
-//   res.redirect('/urls');
-//});
+app.post('/logout', (req, res) => {
+  const user = users[req.cookies.user_id];
+  console.log(user, 'hereee')
+  res.clearCookie('user_id', user.id);
+  res.redirect('/urls');
+});
 //renders the register page
 app.get('/register', (req, res) => {
   templateVars = {user: req.cookies['user_id']};

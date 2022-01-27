@@ -11,12 +11,12 @@
         <a class="nav-item nav-link" href="/login">Login</a>
         <a class="nav-item nav-link" href="/register">Register</a>
       </div>
-      <% if (username) { %>
-        <h5><%= username %></h5>
+      <% if (user) { %>
+        <p>logged in as:<%= user.email %></p>
         <form method="POST" action="/logout">
-          <button type="logout" class="btn btn-outline-danger">Logout</button></form>
-      <% } else if (username === undefined) { %>
-        <h2>You are not logged in</h2>
+          <button type="logout" class="btn btn-outline-primary">Logout</button></form>
+      <% } else if (user === undefined) { %>
+        
       <% } %>
     </div>
   </nav>
