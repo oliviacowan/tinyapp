@@ -128,15 +128,25 @@ app.post('/logout', (req, res) => {
 });
 //renders the register page
 app.get('/register', (req, res) => {
-  //const userID = req.cookies['user_id'];
   templateVars = {user: req.cookies['user_id']};
-  //const templateVars = {user: users[userID]};
   console.log('wazzup', templateVars);
   res.render('urls_register', templateVars);
 });
 //creates new user
 app.post('/register', (req, res) => {
   const userID = generateRandomString();
+  loginEmail = req.body.email;
+  loginPass = req.body.password;
+
+  if (!loginEmail || !loginPass) {
+    res.status(400).send('invalid email or password');
+    return;
+  }
+  const email = checkEmails(loginEmail); 
+  if (email) {
+    res.status(400).send('email already exists, please login.');
+    return;
+  }
   users[userID] = {
     id: userID,
     email: req.body.email,
