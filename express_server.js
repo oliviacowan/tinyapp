@@ -114,7 +114,6 @@ app.post('/login', (req, res) => {
     return;
   }
   res.cookie('user_id', user.id);
-  // console.log('email: ', newEmail, 'pass: ', newPassword);
   res.redirect('/urls');
 });
 
