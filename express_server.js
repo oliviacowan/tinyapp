@@ -121,10 +121,12 @@ app.get('/login', (req, res) => {
   res.render('urls_login');
 })
 //logs out
-app.post('/logout', (req, res) => {
-  res.clearCookie('username', req.body.username);
-  res.redirect('/urls');
-});
+// app.post('/logout', (req, res) => {
+//   const user = users[req.cookies.user_id];
+//   console.log(user, 'hereee')
+//   res.clearCookie('user_id', user.id);
+//   res.redirect('/urls');
+//});
 //renders the register page
 app.get('/register', (req, res) => {
   templateVars = {user: req.cookies['user_id']};
