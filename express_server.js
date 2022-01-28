@@ -91,6 +91,7 @@ app.get('/urls/new', (req, res) => {
 app.get('/urls/:shortURL', (req, res) => {
   const user = users[req.cookies.user_id];
   const templateVars = { user: user, shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
+  console.log(templateVars);
   res.render('urls_show', templateVars);
 });
 //creates a new tinyURL
@@ -120,8 +121,12 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 //edits a url
 app.post('/urls/:id', (req, res) => {
   const shortURL = req.params.id;
+  const userID = req.cookies.user_id
   const newLongURL = req.body.longURL;
-  urlDatabase[shortURL] = newLongURL;
+  urlDatabase[shortURL] = {
+    longURL: newLongURL,
+    userID,
+  }
   res.redirect('/urls');
 });
 //creates cookie/logs in
