@@ -90,6 +90,16 @@ app.get('/urls/new', (req, res) => {
 //edit page
 app.get('/urls/:shortURL', (req, res) => {
   const user = users[req.cookies.user_id];
+  if (!user) {
+    res.send('User not logged in');
+    return;
+  }
+  const urlWithId = urlDatabase[req.params.shortURL];
+  if (user.id !== urlWithId.userID) {
+    res.send('This url does not belong to you');
+    return;
+  }
+
   const templateVars = { user: user, shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
   console.log(templateVars);
   res.render('urls_show', templateVars);
@@ -114,13 +124,23 @@ app.get('/u/:shortURL', (req, res) => {
 });
 //deletes a url
 app.post('/urls/:shortURL/delete', (req, res) => {
+  const user = users[req.cookies.user_id];
+  if (!user) {
+    res.send('this is not yours to delete');
+    return
+  }
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
   res.redirect('/urls');
 });
 //edits a url
-app.post('/urls/:id', (req, res) => {
-  const shortURL = req.params.id;
+app.post('/urls/:shortURL', (req, res) => {
+  const user = users[req.cookies.user_id];
+  if (!user) {
+    res.send('this is not yours to edit');
+    return
+  }
+  const shortURL = req.params.shortURL;
   const userID = req.cookies.user_id
   const newLongURL = req.body.longURL;
   urlDatabase[shortURL] = {
@@ -165,14 +185,14 @@ app.get('/login', (req, res) => {
 //logs out
 app.post('/logout', (req, res) => {
   const user = req.cookies.user_id;
-  console.log('wazzup', user)
+  //console.log('wazzup', user)
   res.clearCookie('user_id', user);
   res.redirect('/urls');
 });
 //renders the register page
 app.get('/register', (req, res) => {
   templateVars = { user: req.cookies['user_id'] };
-  console.log('wazzup', templateVars);
+  //console.log('wazzup', templateVars);
   res.render('urls_register', templateVars);
 });
 //creates new user
