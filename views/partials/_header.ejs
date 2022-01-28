@@ -12,9 +12,9 @@
         <a class="nav-item nav-link" href="/register">Register</a>
       </div>
       <% if (user) { %>
-        <p>logged in as: <%= user.email %></p>
+        <p style="color:azure;text-align:right;margin-left: 480px">logged in as: <%= user.email %></p>
         <form method="POST" action="/logout">
-          <button type="logout" class="btn btn-outline-primary">Logout</button></form>
+          <button type="logout" class="btn btn-outline-light">Logout</button></form>
       <% } else if (user === undefined) { %>
         
       <% } %>
