@@ -1,4 +1,4 @@
-//helper function
+
 const checkEmails = function (inputEmail, users) {
   for (const userID in users) {
     const user = users[userID];
@@ -19,4 +19,10 @@ const urlsForUser = function(id, urlDatabase) {
   return urls;
 } 
 
-module.exports = { checkEmails, urlsForUser };
+
+function generateRandomString() {
+  const randString = Math.random().toString(24);
+  return randString.substring(4, 10);
+}
+
+module.exports = { checkEmails, urlsForUser, generateRandomString };
